@@ -1,0 +1,48 @@
+<template>
+    <template if:true={showCarModelForm}>
+        <lightning-card title="Add a Car Model">
+
+        <lightning-button label="Show Car Models" variant="brand" icon-name="utility:list" icon-position="right" 
+            onclick={showListView} slot="actions"></lightning-button>
+        
+        <lightning-record-edit-form object-api-name="Car_Model__c" onsuccess={createCarModel}>
+                <form>
+                    <lightning-input-field field-name={carmodelname_field} placeholder="Please Enter Model Name..">
+                    </lightning-input-field>
+
+                    <lightning-input-field field-name={car_field}></lightning-input-field>
+
+                    <lightning-input-field field-name={carengine_field} placeholder="Please Enter Engine..">
+                    </lightning-input-field>
+
+                    <lightning-input-field field-name={carseats_field}></lightning-input-field>
+
+                    <lightning-input-field field-name={carprice_field} placeholder="Please Enter Base Price..">
+                    </lightning-input-field>
+
+                    <footer class="slds-card__footer">
+                        <div class="slds-button-group" role="group">
+                            <lightning-button class="slds-var-m-around_small" type="submit" variant="brand" label="Add Car Model"></lightning-button>
+                            <lightning-button class="slds-var-m-around_small" label="Reset" variant="destructive" onclick={clear}></lightning-button>
+                        </div>
+                    </footer>
+                </form>
+        </lightning-record-edit-form>
+        </lightning-card>
+    </template>
+
+    <template if:true={showCarModels}>
+        <template if:true={carModels}>
+            <lightning-card title="Car Model List">
+                <lightning-button label="New Car Model" variant="brand" icon-name="utility:new" icon-position="right"
+                    onclick={showFormView} slot="actions"></lightning-button>
+
+                <lightning-datatable key-field="Id"
+                data={carModels}
+                columns={columns}
+                show-row-number-column="true"
+                hide-checkbox-column="true"></lightning-datatable>
+            </lightning-card>
+        </template>
+    </template>
+</template>

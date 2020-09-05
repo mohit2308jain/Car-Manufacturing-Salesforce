@@ -1,0 +1,39 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <template for:each={carModels.data} for:item="car">
+            <div class="slds-col slds-large-size_1-of-3 slds-medium-size_1-of-2 
+            slds-small-size_1-of-1 slds-var-p-around_small"
+            key={car.Id}>
+            <lightning-card variant="Narrow" title={car.Name}
+                icon-name="custom:custom31" key={car.Id}>
+                
+                <lightning-record-view-form record-id={car.Id}
+                    object-api-name="Car_Model__c">
+                    <div class="slds-box">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-output-field field-name="Engine__c">
+                                </lightning-output-field>
+                                <lightning-output-field field-name="Price__c">
+                                </lightning-output-field>                                
+                            </div>
+                        
+
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-output-field field-name="Seats__c">
+                                </lightning-output-field>
+                                <lightning-output-field field-name="Stage__c">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-card__footer">
+                        <lightning-button name={car.Id} label="View this Car" class="slds-var-m-around_small" onclick={openViewModal}></lightning-button>
+                        <lightning-button name={car.Id} label="Buy this Car" class="slds-var-m-around_small" onclick={handleNavigate}></lightning-button>
+                    </footer>
+                </lightning-record-view-form>
+            </lightning-card>
+        </div>
+        </template>
+    </div>
+</template>
