@@ -1,8 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 import { getRecord, updateRecord, deleteRecord } from 'lightning/uiRecordApi';
-import { refreshApex } from '@salesforce/apex';
-import getCarModel from '@salesforce/apex/fetchData.getCarModel';
 
 import BOOKINGID from '@salesforce/schema/Car_Booking__c.Id';
 import BOOKINGSTAGE from '@salesforce/schema/Car_Booking__c.Booking_Stage__c';
@@ -15,7 +14,7 @@ import AIRBAGS from '@salesforce/schema/Car_Booking__c.Extra_Airbags__c';
 import TOTALPRICE from '@salesforce/schema/Car_Booking__c.Total_Price__c';
 import CARMODEL from '@salesforce/schema/Car_Booking__c.Car_Model__c'
 
-export default class CarBookingPage extends LightningElement {
+export default class CarBookingPage extends NavigationMixin(LightningElement) {
     @api recId;
 
     bookingstage_field = BOOKINGSTAGE;
@@ -29,6 +28,7 @@ export default class CarBookingPage extends LightningElement {
     carmodel_field = CARMODEL;
 
     @track showPaymentModal = false;
+    @track showDeleteModal = false;
     @track showBookingForm = true;
     @track showBookingRecord = false;
     @track bookingId;
@@ -52,6 +52,16 @@ export default class CarBookingPage extends LightningElement {
         this.template.querySelector('form').reset();
     }
 
+    navigateToCarModelsPage = () => {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: {
+                //Name of any CustomTab. Visualforce tabs, web tabs, Lightning Pages, and Lightning Component tabs
+                apiName: 'Book_A_Car'
+            },
+        });
+    }
+
     completePayment = () => {
         const fields = {}
         fields[BOOKINGID.fieldApiName] = this.bookingId;
@@ -66,6 +76,7 @@ export default class CarBookingPage extends LightningElement {
                     variant: 'success'
                 })
             );
+            this.navigateToCarModelsPage();
         }).catch(error => {
             this.dispatchEvent(
                 new ShowToastEvent({
@@ -75,6 +86,16 @@ export default class CarBookingPage extends LightningElement {
                 })
             );
         })
+    }
+
+    openPaymentModal = (event) => {
+        this.showPaymentModal = true;
+        this.showDeleteModal = false;
+    }
+
+    closePaymentModal = (event) => {
+        this.showPaymentModal = false;
+        this.showDeleteModal = false;
     }
 
     cancelBooking = () => {
@@ -87,9 +108,7 @@ export default class CarBookingPage extends LightningElement {
                         variant: 'success'
                     })
                 );
-                
-                //return refreshApex(this.req);
-                location.reload();
+                this.navigateToCarModelsPage();
             })
             .catch(error => {
                 this.dispatchEvent(
@@ -103,5 +122,14 @@ export default class CarBookingPage extends LightningElement {
         console.log('delete');
     }
 
+    openDeleteModal = (event) => {
+        this.showDeleteModal = true;
+        this.showPaymentModal = false;
+    }
+
+    closeDeleteModal = (event) => {
+        this.showPaymentModal = false;
+        this.showDeleteModal = false;
+    }
 
 }
