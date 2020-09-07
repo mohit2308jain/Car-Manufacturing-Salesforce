@@ -57,10 +57,10 @@
                         object-api-name="Car_Model__c">
                         <lightning-card variant="Narrow" icon-name="custom:custom31">
 
-                            <h1 slot="title">
+                            <div slot="title">
                                 <lightning-output-field field-name="Name" variant="label-hidden">
                                 </lightning-output-field>
-                            </h1>
+                            </div>
 
                             <div class="slds-box">
                                 <div class="slds-grid slds-wrap">
@@ -84,14 +84,14 @@
 
 
                                     <div class="slds-col slds-size_1-of-2">
-                                        <lightning-formatted-text class="slds-form-element__label" value="Manufacturer: ">
+                                        <lightning-formatted-text class="slds-form-element__label" value="Manufacturer">
                                         </lightning-formatted-text>
                                         <lightning-formatted-text class="slds-form-element__static" value={carModel.Car__r.Manufacturer__c}>
                                         </lightning-formatted-text>
                                     </div>
 
                                     <div class="slds-col slds-size_1-of-2">
-                                        <lightning-formatted-text class="slds-form-element__label" value="Car Style: ">
+                                        <lightning-formatted-text class="slds-form-element__label" value="Car Style">
                                         </lightning-formatted-text>
                                         <lightning-formatted-text class="slds-form-element__static" value={carModel.Car__r.Style__c}>
                                         </lightning-formatted-text>

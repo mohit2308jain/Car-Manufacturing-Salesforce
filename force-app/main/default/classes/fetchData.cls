@@ -1,18 +1,29 @@
 public with sharing class fetchData {
     @AuraEnabled(cacheable=true)
     public static List<Car_Model__c> getLaunchedCarModels() {
-        return [SELECT Id, Name, Engine__c, Seats__c, Price__c, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c WHERE Stage__c =: 'Launched' ORDER BY LastModifiedDate DESC];
+        return [SELECT Id, Name, Car__c, Engine__c, Seats__c, Price__c, Stage__c, Car__r.Name, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c WHERE Stage__c =: 'Launched' ORDER BY LastModifiedDate DESC];
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Car_Model__c> getLaunchedCarModelBySearchTerm(String searchTerm) {
         String searchTermLike = '%'+searchTerm+'%';
-        return [SELECT Id, Name, Engine__c, Seats__c, Price__c FROM Car_Model__c WHERE (Stage__c =: 'Launched' AND Name LIKE :searchTermLike) ORDER BY LastModifiedDate DESC];
+        return [SELECT Id, Name, Car__c, Engine__c, Seats__c, Price__c, Stage__c, Car__r.Name, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c WHERE (Stage__c =: 'Launched' AND Name LIKE :searchTermLike) ORDER BY LastModifiedDate DESC];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Car_Model__c> getManufacturedCarModels() {
+        return [SELECT Id, Name, Car__c, Engine__c, Seats__c, Price__c, Stage__c, Car__r.Name, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c WHERE Stage__c =: 'Manufactured' ORDER BY LastModifiedDate DESC];
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static List<Car_Model__c> getManufacturedCarModelBySearchTerm(String searchTerm) {
+        String searchTermLike = '%'+searchTerm+'%';
+        return [SELECT Id, Name, Car__c, Engine__c, Seats__c, Price__c, Stage__c, Car__r.Name, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c WHERE (Stage__c =: 'Manufactured' AND (Name LIKE :searchTermLike OR Engine__c LIKE :searchTermLike)) ORDER BY LastModifiedDate DESC];
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Car_Model__c> getAllCarModels() {
-        return [SELECT Id, Name, Engine__c, Seats__c, Price__c FROM Car_Model__c ORDER BY LastModifiedDate DESC];
+        return [SELECT Id, Name, Engine__c, Seats__c, Price__c, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c ORDER BY LastModifiedDate DESC];
     }
 
     @AuraEnabled(cacheable=true)

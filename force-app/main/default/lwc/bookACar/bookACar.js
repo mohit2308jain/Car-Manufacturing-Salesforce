@@ -44,7 +44,6 @@ export default class BookACar extends NavigationMixin(LightningElement) {
 
     //Function used to fetch records according to the value given as input in the searchbar
     searchRecords = (event) => { 
-        
         const searchTerm = event.target.value;
         
         if(searchTerm){
@@ -61,7 +60,6 @@ export default class BookACar extends NavigationMixin(LightningElement) {
     
     handleNavigate = (event) => {
         let recid = event.target.name;
-        console.log(recid);
 
         var compDefinition = {
             componentDef: "c:carBookingPage",
@@ -81,13 +79,11 @@ export default class BookACar extends NavigationMixin(LightningElement) {
 
     openViewModal = (event) => {
         this.viewRecId = event.target.name;
-        console.log(this.datas);
         this.carModel = this.datas.filter((model) => {
             return model.Id.includes(this.viewRecId);
         })[0];
+
         this.showViewModal = true;
-        console.log("l");
-        console.log(this.carModel);
     }
 
     closeViewModal = (event) => {
