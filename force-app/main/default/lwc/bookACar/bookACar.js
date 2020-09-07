@@ -1,5 +1,6 @@
 import { LightningElement, wire, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import getLaunchedCarModels from '@salesforce/apex/fetchData.getLaunchedCarModels';
 import getLaunchedCarModelBySearchTerm from '@salesforce/apex/fetchData.getLaunchedCarModelBySearchTerm';
 
@@ -10,50 +11,51 @@ export default class BookACar extends NavigationMixin(LightningElement) {
     @track viewRecId;
     @track carModels;
     @track error;
+    @track carModel;
+    @track datas;
+    @track len = false;
     
-    @wire(getLaunchedCarModels)
-    Car_Model__c({data, error}){
-        if(data){
-            this.handleDataToShow(data);
-            this.error = undefined;
-        }
-        else if(error){
-            this.carModels = undefined;
+    constructor(){
+        super();
+        getLaunchedCarModels()
+        .then((result) => {
+            this.carModels = result;
+            this.datas = result;
+            this.setLen(result.length);
+        }) 
+        .catch((error) => {
             this.error = error;
-        }
+            this.showErrorToast(error);
+        })
     }
 
-    handleDataToShow = (result) => {
-        console.log("data");
-        console.log(result);
-        this.carModels = result;
+    setLen = (res) => {
+        this.len = (res) ? true : false;
+    }
+
+    showErrorToast = (err) => {
+        const event = new ShowToastEvent({
+            title: 'Error',
+            variant: 'error',
+            message: err.body.message,
+        });
+        this.dispatchEvent(event);
     }
 
     //Function used to fetch records according to the value given as input in the searchbar
     searchRecords = (event) => { 
         
-        const searchTerm = event.target.value; 
-        console.log(searchTerm);
+        const searchTerm = event.target.value;
+        
         if(searchTerm){
-            getLaunchedCarModelBySearchTerm( { searchTerm } ).then((result) => {
-                this.handleDataToShow(result);
-            }) 
-            .catch(error => { 
-                this.error = error; 
-            }); 
-        } 
-        else if(!searchTerm) 
-        {
-            getLaunchedCarModels()
-            .then(result => {
-                this.handleDataToShow(result);
-            }) 
-            .catch(error => {
-                this.error = error;
+            this.carModels = this.carModels.filter((model) => {
+                return model.Name.toLowerCase().includes(searchTerm.toLowerCase());
             })
+            this.setLen(this.carModels.length);
         }
-        else{
-            this.carModels = undefined; 
+        else if(!searchTerm){
+            this.carModels = this.datas;
+            this.setLen(this.carModels.length);
         }
     }
     
@@ -78,9 +80,14 @@ export default class BookACar extends NavigationMixin(LightningElement) {
     }
 
     openViewModal = (event) => {
-        console.log(event.target.name);
         this.viewRecId = event.target.name;
+        console.log(this.datas);
+        this.carModel = this.datas.filter((model) => {
+            return model.Id.includes(this.viewRecId);
+        })[0];
         this.showViewModal = true;
+        console.log("l");
+        console.log(this.carModel);
     }
 
     closeViewModal = (event) => {
@@ -89,8 +96,60 @@ export default class BookACar extends NavigationMixin(LightningElement) {
     }
 }
 
+/*
+//Function used to fetch records according to the value given as input in the searchbar
+    searchRecords = (event) => { 
+        
+        const searchTerm = event.target.value;
+        console.log(searchTerm);
+        
+        if(searchTerm){
+            this.carModels = this.carModels.filter((model) => {
+                return model.Name.toLowerCase().includes(searchTerm.toLowerCase());
+            })
+            this.setLen(this.carModels.length);
+            console.log("List");
+            console.log(this.carModels)
+        }
+        else if(!searchTerm){
+            this.carModels = this.datas;
+            this.setLen(this.carModels.length);
+            console.log("Full List");
+            console.log(this.carModels)
+        }
+
         /*
-        this[NavigationMixin.Navigate]({
+        if(searchTerm){
+            getLaunchedCarModelBySearchTerm( { searchTerm: searchTerm } ).then((result) => {
+                this.carModels = result;
+                this.setLen(result.length);
+            }) 
+            .catch(error => { 
+                this.error = error;
+                this.showErrorToast(error);
+            }); 
+        } 
+        else if(!searchTerm) 
+        {
+            getLaunchedCarModels()
+            .then((result) => {
+                this.carModels = result;
+                this.setLen(result.length);
+            }) 
+            .catch((error) => {
+                this.error = error;
+                this.showErrorToast(error);
+            })
+        }
+        else{
+            this.carModels = undefined;
+        }
+        
+    }
+    
+
+
+            this[NavigationMixin.Navigate]({
             type: "standard__component",
             attributes: {
                 componentName: "c__NavigateToLWC"
@@ -110,16 +169,14 @@ export default class BookACar extends NavigationMixin(LightningElement) {
             },
         });
 
-        <header class="slds-modal__header">
-                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
-                    <lightning-icon icon-name="utility:close"
-                        alternative-text="close"
-                        variant="inverse"
-                        size="small" ></lightning-icon>
-                    <span class="slds-assistive-text">Close</span>
-                    </button>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Request Detail</h2>
-                </header>
-
-
-        */
+        /* @wire(getLaunchedCarModels)
+    Car_Model__c({data, error}){
+        if(data){
+            this.handleDataToShow(data);
+            this.error = undefined;
+        }
+        else if(error){
+            this.carModels = undefined;
+            this.error = error;
+        }
+    } */

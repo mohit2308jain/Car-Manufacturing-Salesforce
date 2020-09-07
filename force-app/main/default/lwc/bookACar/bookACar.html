@@ -1,7 +1,13 @@
 <template>
-    <lightning-input type="search" onchange={searchRecords} 
-        class="slds-box slds-theme_shade slds-theme_alert-texture slds-var-m-bottom_small" 
-        label="Search" placeholder="Enter Car Model.."></lightning-input>
+    <div class="slds-box slds-theme_shade slds-theme_alert-texture">
+        <lightning-input type="search" onchange={searchRecords} 
+            class="slds-var-m-bottom_small" 
+            label="Search" placeholder="Enter Car Model.."></lightning-input>
+
+        <div if:false={len} class="slds-page-header__title slds-text-heading_large slds-text-align_center slds-text-color_error">
+            No Records Found!
+        </div>
+    </div>
 
     <div class="slds-grid slds-wrap">
         <template for:each={carModels} for:item="car">
@@ -58,6 +64,14 @@
 
                             <div class="slds-box">
                                 <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <lightning-output-field field-name="Price__c">
+                                        </lightning-output-field>
+
+                                        <lightning-output-field field-name="Car__c">
+                                        </lightning-output-field>
+                                    </div>
+
                                     <div class="slds-col slds-size_1-of-2">
                                         <lightning-output-field field-name="Engine__c">
                                         </lightning-output-field>                               
@@ -68,9 +82,19 @@
                                         </lightning-output-field>
                                     </div>
 
-                                    <div class="slds-col slds-size_1-of-1">
-                                        <lightning-output-field field-name="Price__c">
-                                        </lightning-output-field>
+
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-formatted-text class="slds-form-element__label" value="Manufacturer: ">
+                                        </lightning-formatted-text>
+                                        <lightning-formatted-text class="slds-form-element__static" value={carModel.Car__r.Manufacturer__c}>
+                                        </lightning-formatted-text>
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-formatted-text class="slds-form-element__label" value="Car Style: ">
+                                        </lightning-formatted-text>
+                                        <lightning-formatted-text class="slds-form-element__static" value={carModel.Car__r.Style__c}>
+                                        </lightning-formatted-text>
                                     </div>
                                 </div>
                             </div>

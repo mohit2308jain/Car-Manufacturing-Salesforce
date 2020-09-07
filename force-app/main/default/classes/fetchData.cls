@@ -1,7 +1,7 @@
 public with sharing class fetchData {
     @AuraEnabled(cacheable=true)
     public static List<Car_Model__c> getLaunchedCarModels() {
-        return [SELECT Id, Name, Engine__c, Seats__c, Price__c FROM Car_Model__c WHERE Stage__c =: 'Launched' ORDER BY LastModifiedDate DESC];
+        return [SELECT Id, Name, Engine__c, Seats__c, Price__c, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c WHERE Stage__c =: 'Launched' ORDER BY LastModifiedDate DESC];
     }
 
     @AuraEnabled(cacheable=true)
