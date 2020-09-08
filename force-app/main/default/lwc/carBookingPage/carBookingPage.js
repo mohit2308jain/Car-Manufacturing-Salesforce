@@ -1,7 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
-import { getRecord, updateRecord, deleteRecord } from 'lightning/uiRecordApi';
+import { updateRecord, deleteRecord } from 'lightning/uiRecordApi';
 
 import BOOKINGID from '@salesforce/schema/Car_Booking__c.Id';
 import BOOKINGSTAGE from '@salesforce/schema/Car_Booking__c.Booking_Stage__c';
@@ -35,11 +35,10 @@ export default class CarBookingPage extends NavigationMixin(LightningElement) {
     @track pagetitle = 'Add Car Booking';
 
     createCarBooking = (event) => {
-        console.log(event.detail.id);
         this.bookingId = event.detail.id;
         this.dispatchEvent(new ShowToastEvent({
             title: 'Success',
-            message: 'Request Created !',
+            message: 'Booking Created !',
             variant: 'success'
         }));
         this.showBookingForm = false;
@@ -119,7 +118,6 @@ export default class CarBookingPage extends NavigationMixin(LightningElement) {
                     })
                 );
             });
-        console.log('delete');
     }
 
     openDeleteModal = (event) => {

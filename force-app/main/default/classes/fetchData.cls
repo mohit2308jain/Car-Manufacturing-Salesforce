@@ -23,12 +23,12 @@ public with sharing class fetchData {
 
     @AuraEnabled(cacheable=true)
     public static List<Car_Model__c> getAllCarModels() {
-        return [SELECT Id, Name, Engine__c, Seats__c, Price__c, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c ORDER BY LastModifiedDate DESC];
+        return [SELECT Id, Name, Car__c, Engine__c, Seats__c, Price__c, Stage__c, Car__r.Name, Car__r.Style__c, Car__r.Manufacturer__c FROM Car_Model__c ORDER BY LastModifiedDate DESC];
     }
 
     @AuraEnabled(cacheable=true)
     public static List<Car_Booking__c> getCarBookings() {
         return [SELECT Id, Name, Speakers__c, Diesel__c, Extra_Airbags__c, Car_Color__c,
-            Account__c, Car_Model__c, Booking_Stage__c, Customer_Email__c, Total_Price__c FROM Car_Booking__c ORDER BY LastModifiedDate LIMIT 1];
+            Account__c, Account__r.Name, Car_Model__c, Car_Model__r.Name, Booking_Stage__c, Customer_Email__c, Total_Price__c FROM Car_Booking__c ORDER BY LastModifiedDate];
     }
 }

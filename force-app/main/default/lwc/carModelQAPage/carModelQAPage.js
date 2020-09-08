@@ -1,7 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { getRecord, updateRecord } from 'lightning/uiRecordApi';
-import { refreshApex } from '@salesforce/apex';
+import { updateRecord } from 'lightning/uiRecordApi';
 import getManufacturedCarModels from '@salesforce/apex/fetchData.getManufacturedCarModels';
 
 import CARMODELID from '@salesforce/schema/Car_Model__c.Id';
