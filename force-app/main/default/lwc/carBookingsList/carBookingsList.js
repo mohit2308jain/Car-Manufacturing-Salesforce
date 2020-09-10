@@ -1,20 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { NavigationMixin } from 'lightning/navigation';
-import { updateRecord, deleteRecord } from 'lightning/uiRecordApi';
 import getCarBookings from '@salesforce/apex/fetchData.getCarBookings';
 import makePostCallout from '@salesforce/apex/carCallout.makePostCallout';
-
-import BOOKINGID from '@salesforce/schema/Car_Booking__c.Id';
-import BOOKINGSTAGE from '@salesforce/schema/Car_Booking__c.Booking_Stage__c';
-import CARCOLOR from '@salesforce/schema/Car_Booking__c.Car_Color__c';
-import CUSTOMERACCOUNT from '@salesforce/schema/Car_Booking__c.Account__c';
-import CUSTOMEREMAIL from '@salesforce/schema/Car_Booking__c.Customer_Email__c';
-import SPEAKERS from '@salesforce/schema/Car_Booking__c.Speakers__c';
-import DIESEL from '@salesforce/schema/Car_Booking__c.Diesel__c';
-import AIRBAGS from '@salesforce/schema/Car_Booking__c.Extra_Airbags__c';
-import TOTALPRICE from '@salesforce/schema/Car_Booking__c.Total_Price__c';
-import CARMODEL from '@salesforce/schema/Car_Booking__c.Car_Model__c'
 
 export default class CarBookingsList extends LightningElement {
 
@@ -71,7 +58,7 @@ export default class CarBookingsList extends LightningElement {
         }
     }
     
-    handleNavigate = (event) => {
+    handleCallout = (event) => {
         console.log(event.target.name);
         makePostCallout({recordId: event.target.name})
             .then((res) => {

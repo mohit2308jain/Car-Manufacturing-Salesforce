@@ -15,7 +15,27 @@ const COLS = [
     { label: 'Car Model Name', fieldName: 'Name' },
     { label: 'Engine', fieldName: 'Engine__c'},
     { label: 'Seats', fieldName: 'Seats__c' },
-    { label: 'Price', fieldName: 'Price__c' }
+    { label: 'Price', fieldName: 'Price__c' },
+    { label: 'View', type: 'button-icon', initialWidth: 75,
+        typeAttributes: {
+            label: 'Show',
+            name: 'showRec',
+            iconName: 'action:info',
+            title: 'Info',
+            variant: 'border-filled',
+            alternativeText: 'View'
+        }
+    },
+    { label: 'YES', type: 'button', initialWidth: 75,
+        typeAttributes: {
+            label: 'Yes',
+            name: 'passedRec',
+            title: 'Passed',
+            disabled: {fieldName : 'isNotApproved__c' }, 
+            variant: 'success'
+           
+        }
+    }
 ]
 
 export default class CreateCarModel extends LightningElement {
@@ -31,21 +51,25 @@ export default class CreateCarModel extends LightningElement {
     @track carModels;
     @track error;
 
-    @wire(getAllCarModels)
-    Car_Model__c(result){
-        console.log(result);
-        if(result.data){
-            this.carModels = result.data;
+    connectedCallback(){
+        getAllCarModels()
+        .then((result) => {
+            console.log(result);
+            this.carModels = result;
             this.error = undefined;
             console.log("ll");
             console.log(this.carModels);
-        }
-        else{
+        })
+        .catch((error) => {
             this.carModels = undefined;
-            this.error = result.error;
+            this.error = error;
             console.log("gg");
             console.log(this.error);
-        }
+        })
+    }
+
+    disconnectedCallback(){
+        console.log("Bye");
     }
 
 

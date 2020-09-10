@@ -21,9 +21,11 @@ export default class BookACar extends NavigationMixin(LightningElement) {
         .then((result) => {
             this.carModels = result;
             this.datas = result;
+            console.log(result);
             this.setLen(result.length);
         }) 
         .catch((error) => {
+            console.log(error);
             this.error = error;
             this.showErrorToast(error);
         })
