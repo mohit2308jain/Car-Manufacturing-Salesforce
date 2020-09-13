@@ -4,7 +4,7 @@ import getChartData from "@salesforce/apex/fetchChartData.getChartData";
 export default class CarModelsComparisonChart extends LightningElement {
     @track chartConfiguration;
 
-    @wire(getChartData, {})
+    @wire(getChartData)
     getEntries({ error, data }) {
         if (error) {
             this.error = error;

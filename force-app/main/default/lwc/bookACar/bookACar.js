@@ -2,7 +2,6 @@ import { LightningElement, wire, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent'
 import getLaunchedCarModels from '@salesforce/apex/fetchData.getLaunchedCarModels';
-import getLaunchedCarModelBySearchTerm from '@salesforce/apex/fetchData.getLaunchedCarModelBySearchTerm';
 
 export default class BookACar extends NavigationMixin(LightningElement) {
 
