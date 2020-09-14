@@ -1,0 +1,17 @@
+<apex:page standardController="Car_Model__c" tabStyle="Car_Model__c">
+   <apex:form >
+        <apex:pageBlock title="Car Model">
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="Save" action="{!save}"/>            
+            </apex:pageBlockButtons>
+    
+            <apex:pageBlockSection >
+                <apex:inputField value="{!Car_Model__c.Name}" required="true"/>
+                <apex:inputField value="{!Car_Model__c.Car__c}"/>
+                <apex:inputField value="{!Car_Model__c.Seats__c}"/>
+                <apex:inputField value="{!Car_Model__c.Engine__c}"/>
+                <apex:inputField value="{!Car_Model__c.Price__c}"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>   
+    </apex:form>
+</apex:page>

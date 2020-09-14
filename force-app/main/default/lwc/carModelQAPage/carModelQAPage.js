@@ -62,6 +62,7 @@ export default class CarModelQAPage extends LightningElement {
             this.setLen(result.length);
         }) 
         .catch((error) => {
+            console.log(error);
             this.error = error;
             this.showErrorToast(error);
         })

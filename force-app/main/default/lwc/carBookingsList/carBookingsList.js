@@ -1,7 +1,6 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getCarBookings from '@salesforce/apex/fetchData.getCarBookings';
-import makePostCallout from '@salesforce/apex/carCallout.makePostCallout';
 
 export default class CarBookingsList extends LightningElement {
 
@@ -58,23 +57,6 @@ export default class CarBookingsList extends LightningElement {
         }
     }
     
-    handleCallout = (event) => {
-        console.log(event.target.name);
-        makePostCallout({recordId: event.target.name})
-            .then((res) => {
-                console.log(res);
-                const event = new ShowToastEvent({
-                    title: 'Success',
-                    variant: 'Success',
-                    message: 'Data Sent',
-                });
-                this.dispatchEvent(event);
-            })
-            .catch((err) => {
-                console.log(err);
-                this.showErrorToast(err);
-            })
-    }
 
     openViewModal = (event) => {
         this.viewRecId = event.target.name;
