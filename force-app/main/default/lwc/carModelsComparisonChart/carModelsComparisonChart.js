@@ -67,7 +67,7 @@ export default class CarModelsComparisonChart extends LightningElement {
                     barThickness: 6,
                     maxBarThickness: 8,
                     minBarLength: 2,
-                    backgroundColor: "blue",
+                    backgroundColor: "red",
                     data: chartData
                 }]
             },
